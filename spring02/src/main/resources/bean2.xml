@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--开启注解扫描-->
+    <context:component-scan base-package="com"></context:component-scan>
+    <!--分别创建BookService、BookDao、OrderDao的对象-->
+    <bean id="bookService" class="com.anno03.BookService"></bean>
+    <bean id="bookDao" class="com.anno03.BookDao"></bean>
+    <bean id="orderDao" class="com.anno03.OrderDao"></bean>
+</beans>

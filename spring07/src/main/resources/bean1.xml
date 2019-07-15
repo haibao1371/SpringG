@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--配置C3P0连接池-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/db"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value="root"></property>
+    </bean>
+    <!--第1步：配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--注入dataSource,证明这个事务作用于哪个数据库-->
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <!--第二步：配置事务增强-->
+    <tx:advice id="txadvice" transaction-manager="transactionManager">
+        <!--做事务操作-->
+        <tx:attributes>
+            <!--设置进行事务操作方法的匹配规则-->
+            <tx:method name="account*"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--第三步：配置切面-->
+    <aop:config>
+        <!--配置切入点-->
+        <aop:pointcut id="pointcut1" expression="execution(* com.service.OrderService.*(..))"></aop:pointcut>
+        <!--配置切面-->
+        <aop:advisor advice-ref="txadvice" pointcut-ref="pointcut1"></aop:advisor>
+    </aop:config>
+    <bean id="orderService" class="com.service.OrderService">
+        <property name="orderDao" ref="orderDao"></property>
+    </bean>
+    <bean id="orderDao" class="com.dao.OrderDao">
+        <property name="jdbcTemplate" ref="jdbcTemplate"></property>
+    </bean>
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+</beans>

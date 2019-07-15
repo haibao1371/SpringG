@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--配置C3P0连接池-->
+    <!--第1步：创建ComboPooledDataSource的bean对象-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!--注入相关属性-->
+        <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/db"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value="root"></property>
+    </bean>
+    <!--创建UserService和UserDao的两个对象-->
+    <bean id="userService" class="com.jdbc01.UserService">
+        <!--在service里注入dao对象-->
+        <property name="userDao" ref="userDao"></property>
+    </bean>
+    <bean id="userDao" class="com.jdbc01.UserDao">
+        <!--注入jdbcTemplate对象-->
+        <property name="jdbcTemplate" ref="jdbcTemplate"></property>
+    </bean>
+    <!--创建jdbcTemplate对象-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <!--把dataSource注入到jdbcTemplate对象中-->
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+</beans>

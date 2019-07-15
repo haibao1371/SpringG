@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--注入对象类型属性-->
+    <!--配置UserService和UserDao对象-->
+    <bean id="userDao" class="com.bean06.UserDao"/>
+    <bean id="userService" class="com.bean06.UserService">
+        <!--注入UserDao属性
+        name属性：UserService类里面的属性名称，后面跟ref不跟value，因为现在是对象不是字符串
+        ref属性：UserDao配置中的id值；
+  -->
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+</beans>

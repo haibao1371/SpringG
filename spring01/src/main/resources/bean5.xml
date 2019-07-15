@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="user05" class="com.bean05.User05">
+        <!--name属性：为实体类中定义的属性名称
+              value属性：为具体的值
+        -->
+        <property name="name" value="创造价值"/>
+    </bean>
+</beans>
